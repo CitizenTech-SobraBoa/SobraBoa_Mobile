@@ -111,15 +111,41 @@ export function Field({
   hint,
   ...props
 }: TextInputProps & { label: string; hint?: string }) {
+  const [visible, setVisible] = useState(false);
+  const password = !!props.secureTextEntry;
   return (
     <View style={styles.field}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput
-        accessibilityLabel={label}
-        placeholderTextColor={colors.muted}
-        style={[styles.input, props.multiline && styles.multiline]}
-        {...props}
-      />
+      <View style={styles.inputWrap}>
+        <TextInput
+          accessibilityLabel={label}
+          placeholderTextColor={colors.muted}
+          {...props}
+          secureTextEntry={password && !visible}
+          autoCorrect={password ? false : props.autoCorrect}
+          style={[
+            styles.input,
+            props.multiline && styles.multiline,
+            password && styles.inputWithIcon,
+            props.style,
+          ]}
+        />
+        {password && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={visible ? 'Ocultar senha' : 'Mostrar senha'}
+            hitSlop={8}
+            onPress={() => setVisible((v) => !v)}
+            style={styles.eye}
+          >
+            <Ionicons
+              name={visible ? 'eye-off-outline' : 'eye-outline'}
+              size={22}
+              color={colors.muted}
+            />
+          </Pressable>
+        )}
+      </View>
       {hint && <Text style={styles.small}>{hint}</Text>}
     </View>
   );
@@ -286,6 +312,16 @@ export const styles = StyleSheet.create({
     fontSize: 16,
   },
   multiline: { minHeight: 96, textAlignVertical: 'top' },
+  inputWrap: { justifyContent: 'center' },
+  inputWithIcon: { paddingRight: 52 },
+  eye: {
+    position: 'absolute',
+    right: 4,
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   toggle: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 52 },
   choices: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
   choice: {
