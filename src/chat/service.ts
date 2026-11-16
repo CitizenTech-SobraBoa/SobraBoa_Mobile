@@ -1,5 +1,6 @@
 import axios from 'axios';
 import type { ChatTransport } from './types';
+import { formatReply } from './format';
 
 export const CHAT_UNAVAILABLE = 'O assistente está em preparação. Tente novamente em breve.';
 
@@ -19,6 +20,7 @@ export const chatTransport: ChatTransport = {
       { mensagem: text },
       { signal, timeout: 30000 },
     );
-    return { text: data.resposta };
+    if (typeof data?.resposta !== 'string') throw new Error('Resposta inválida da IA');
+    return { text: formatReply(data.resposta) };
   },
 };
