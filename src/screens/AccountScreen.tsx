@@ -52,9 +52,7 @@ export function AccountScreen() {
         contentContainerStyle={[s.content, { paddingBottom: 36 + tabSpace }]}
       >
         <GreenHeader paddingBottom={72}>
-          <View style={s.brand}>
-            <Text style={s.brandName}>SobraBoa</Text>
-          </View>
+          <View style={s.brandSpace} />
           <Text style={s.eyebrow}>Conta</Text>
           <Text accessibilityRole="header" style={s.title}>
             Minha conta
@@ -120,8 +118,7 @@ export function AccountScreen() {
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: colors.background },
   content: { paddingBottom: 36, gap: 18 },
-  brand: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
-  brandName: { fontFamily: fonts.display, fontSize: 20, color: colors.surface },
+  brandSpace: { height: 27, marginBottom: 10 },
   eyebrow: { fontFamily: fonts.bold, fontSize: 15, color: colors.surface },
   title: { fontFamily: fonts.display, fontSize: 36, lineHeight: 42, color: colors.surface },
   subtitle: { fontFamily: fonts.regular, fontSize: 16, color: colors.greenLight },
