@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Image, StyleSheet, useWindowDimensions } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { AuthStackParams } from '../navigation/types';
 import { useAuth } from '../auth/AuthContext';
 import { useAction } from '../hooks/useAction';
-import { Body, Button, Field, Heading, Notice, Screen } from '../components/ui';
+import { Button, Field, Heading, Notice, Screen } from '../components/ui';
 import { emailValue, required } from '../validation/forms';
-import { colors, fonts } from '../theme';
+
+const BANNER_RATIO = 1000 / 857;
+const PAGE_PADDING = 22;
 
 export function LoginScreen({ navigation }: NativeStackScreenProps<AuthStackParams, 'Login'>) {
+  const { width } = useWindowDimensions();
+  const bannerWidth = width - PAGE_PADDING * 2;
   const auth = useAuth();
   const action = useAction();
   const [email, setEmail] = useState('');
@@ -21,18 +24,14 @@ export function LoginScreen({ navigation }: NativeStackScreenProps<AuthStackPara
     });
   return (
     <Screen>
-      <View style={s.hero}>
-        <View style={s.mark}>
-          <Ionicons name="leaf" size={42} color={colors.green} />
-        </View>
-        <Text style={s.brand}>
-          SobraBoa<Text style={{ color: colors.lime }}>.</Text>
-        </Text>
-        <Text style={s.tagline}>Bom para compartilhar.\nMelhor para transformar.</Text>
-        <View style={s.pill}>
-          <Text style={s.pillText}>ALIMENTO • COMUNIDADE • CUIDADO</Text>
-        </View>
-      </View>
+      <Image
+        accessible
+        accessibilityRole="image"
+        accessibilityLabel="SobraBoa. Pequenos gestos. Grandes mudanças. Conecte alimentos a quem precisa."
+        source={require('../../assets/images/login-banner.jpg')}
+        resizeMode="cover"
+        style={[s.banner, { width: bannerWidth, height: bannerWidth / BANNER_RATIO }]}
+      />
       <Heading
         title="Que bom ter você aqui"
         subtitle="Entre para fazer parte dessa rede de cuidado."
@@ -58,20 +57,14 @@ export function LoginScreen({ navigation }: NativeStackScreenProps<AuthStackPara
       />
       <Button title="Entrar" busy={action.busy} onPress={() => void submit()} />
       <Button
-        title="Quero fazer parte"
+        title="Cadastre-se"
         secondary
         disabled={action.busy}
         onPress={() => navigation.navigate('Register')}
       />
-      <Body>Conectamos quem tem alimentos para doar a quem cuida da comunidade.</Body>
     </Screen>
   );
 }
 const s = StyleSheet.create({
-  hero: { backgroundColor: colors.green, padding: 28, borderRadius: 28, gap: 18 },
-  mark: { backgroundColor: colors.lime, borderRadius: 20, padding: 14, alignSelf: 'flex-start' },
-  brand: { color: colors.surface, fontFamily: fonts.display, fontSize: 42 },
-  tagline: { color: colors.surface, fontFamily: fonts.regular, fontSize: 19, lineHeight: 28 },
-  pill: { borderTopWidth: 1, borderColor: '#548370', paddingTop: 16 },
-  pillText: { color: colors.lime, fontFamily: fonts.bold, fontSize: 10, letterSpacing: 1.5 },
+  banner: { borderRadius: 26 },
 });
