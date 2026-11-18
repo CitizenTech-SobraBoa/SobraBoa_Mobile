@@ -102,9 +102,9 @@ function Results({
   return (
     <>
       <Notice error message={list.error} />
-      {list.error && (
+      {list.error ? (
         <Button title="Tentar busca novamente" secondary onPress={() => void list.load()} />
-      )}{' '}
+      ) : null}
       {list.busy && <Loading />}
       {!list.busy && !list.error && list.data?.content.length === 0 && (
         <Empty
