@@ -48,6 +48,9 @@ const config: ExpoConfig = {
       { image: './assets/images/splash.png', imageWidth: 200, backgroundColor: '#F6F7F1' },
     ],
   ],
-  extra: { referenceCommit: referenceCommit() },
+  extra: {
+    referenceCommit: referenceCommit(),
+    eas: { projectId: '6e879e67-9e13-48d4-8852-3753c567be8d' },
+  },
 };
 export default config;
