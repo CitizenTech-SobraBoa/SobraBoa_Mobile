@@ -219,4 +219,4 @@ O tester recebe um e-mail do Firebase com o link para instalar o app.
 
 - Fonte Nunito Sans (licença SIL OFL 1.1) e ícones Ionicons (licença MIT, via `@expo/vector-icons`).
 - Ícone, splash e marca foram criados por nós em SVG (`npm run assets` gera os PNGs).
-- As imagens do cabeçalho, da tela inicial, do login e do papel de parede do chat foram fornecidas pela equipe. A origem e a licença delas estão em `assets/images/ATRIBUICAO.md`.
+- As imagens do cabeçalho, das telas de início e de login e o papel de parede do chat foram fornecidos pela própria equipe, em `assets/images`.
