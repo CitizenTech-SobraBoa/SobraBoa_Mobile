@@ -69,7 +69,9 @@ const tabScreenOptions =
       children: string;
     }) => (
       <View style={{ alignItems: 'center', gap: 3 }}>
-        <Text style={{ fontFamily: fonts.bold, fontSize: 11, color }}>{children}</Text>
+        <Text numberOfLines={1} style={{ fontFamily: fonts.bold, fontSize: 11, color }}>
+          {route.name === 'Chat' ? 'Assistente' : children}
+        </Text>
         <View
           style={{
             width: 22,
@@ -141,7 +143,11 @@ function MainTabs() {
           />
         </>
       )}
-      <Tabs.Screen name="Chat" component={ChatScreen} options={{ title: 'Assistente IA' }} />
+      <Tabs.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={{ title: 'Assistente IA', tabBarAccessibilityLabel: 'Assistente IA' }}
+      />
       <Tabs.Screen
         name="Account"
         component={AccountScreen}
