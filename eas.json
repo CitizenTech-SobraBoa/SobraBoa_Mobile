@@ -4,7 +4,10 @@
     "preview": {
       "distribution": "internal",
       "android": { "buildType": "apk" },
-      "env": { "EXPO_PUBLIC_API_URL": "https://sobraboa-api-java.onrender.com" }
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://sobraboa-api-java.onrender.com",
+        "EXPO_PUBLIC_CHAT_URL": "https://sobraboa-ia.onrender.com"
+      }
     },
     "production": { "extends": "preview" }
   }
