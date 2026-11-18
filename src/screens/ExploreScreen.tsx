@@ -7,6 +7,7 @@ import { donationService } from '../services/backend';
 import { usePaged } from '../hooks/usePaged';
 import { useAction } from '../hooks/useAction';
 import { Body, Button, Empty, Field, Heading, Loading, Notice, Screen } from '../components/ui';
+import { CoordinatesTable } from '../components/CoordinatesTable';
 import { DonationCard } from '../components/DonationCard';
 import { Pagination } from '../components/Pagination';
 import { numeric } from '../validation/forms';
@@ -84,9 +85,13 @@ export function ExploreScreen() {
           onDetail={(id) => navigation.navigate('Details', { id, owned: false })}
         />
       ) : (
-        <Body>
-          Use sua localização ou informe coordenadas manualmente. Nenhuma localização é presumida.
-        </Body>
+        <>
+          <Body>
+            Use sua localização ou informe coordenadas manualmente. Nenhuma localização é presumida.
+          </Body>
+          <Body>Coordenadas de exemplo:</Body>
+          <CoordinatesTable />
+        </>
       )}
     </Screen>
   );
