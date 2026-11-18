@@ -42,18 +42,23 @@ export function ExploreScreen() {
       />
       <Field
         label="Latitude"
+        hint="Entre -90 e 90. Exemplo: -23.5505 (São Paulo)."
+        placeholder="Ex.: -23.5505"
         keyboardType="numbers-and-punctuation"
         value={lat}
         onChangeText={setLat}
       />
       <Field
         label="Longitude"
+        hint="Entre -180 e 180. Exemplo: -46.6333 (São Paulo)."
+        placeholder="Ex.: -46.6333"
         keyboardType="numbers-and-punctuation"
         value={lng}
         onChangeText={setLng}
       />
       <Field
         label="Raio em quilômetros"
+        placeholder="Ex.: 5"
         hint="Maior que zero e até 50 km."
         keyboardType="decimal-pad"
         value={radius}
