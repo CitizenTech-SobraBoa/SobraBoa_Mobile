@@ -1,4 +1,5 @@
-import { Field, Button, Notice } from './ui';
+import { useState } from 'react';
+import { Body, Field, Button, Notice } from './ui';
 import { useAction } from '../hooks/useAction';
 import * as Location from 'expo-location';
 import { numeric, required } from '../validation/forms';
@@ -28,6 +29,10 @@ export const emptyAddress: AddressDraft = {
 export function addressPayload(d: AddressDraft): Address {
   const uf = required(d.uf, 'UF').toUpperCase();
   if (!/^[A-Z]{2}$/.test(uf)) throw new Error('UF deve ter duas letras.');
+  if (!d.latitude.trim() || !d.longitude.trim())
+    throw new Error(
+      'Registre a localização do endereço: use o botão de localização ou informe as coordenadas manualmente.',
+    );
   return {
     ...d,
     logradouro: required(d.logradouro, 'logradouro'),
@@ -45,6 +50,8 @@ export function AddressForm({
   onChange: (v: AddressDraft) => void;
 }) {
   const action = useAction();
+  const [manual, setManual] = useState(false);
+  const hasCoords = !!value.latitude.trim() && !!value.longitude.trim();
   const change = (key: keyof AddressDraft, text: string) => onChange({ ...value, [key]: text });
   return (
     <>
@@ -93,7 +100,9 @@ export function AddressForm({
         onChangeText={(t) => change('cep', t)}
       />
       <Button
-        title="Usar coordenadas da minha localização"
+        title={
+          hasCoords ? 'Atualizar a localização do endereço' : 'Usar a localização do meu aparelho *'
+        }
         secondary
         busy={action.busy}
         onPress={() =>
@@ -101,7 +110,7 @@ export function AddressForm({
             const permission = await Location.requestForegroundPermissionsAsync();
             if (permission.status !== 'granted')
               throw new Error(
-                'Localização não permitida. Preencha latitude e longitude manualmente.',
+                'Localização não permitida. Permita nas configurações ou informe as coordenadas manualmente.',
               );
             const { coords } = await Location.getCurrentPositionAsync({
               accuracy: Location.Accuracy.Balanced,
@@ -115,20 +124,36 @@ export function AddressForm({
         }
       />
       <Notice error message={action.error} />
-      <Field
-        label="Latitude *"
-        hint="Do endereço cadastrado, entre -90 e 90."
-        value={value.latitude}
-        onChangeText={(t) => change('latitude', t)}
-        keyboardType="numbers-and-punctuation"
+      {hasCoords ? (
+        <Body>✓ Localização do endereço registrada.</Body>
+      ) : (
+        <Body>Toque no botão estando no local do endereço para registrar a localização.</Body>
+      )}
+      <Button
+        title={manual ? 'Ocultar coordenadas' : 'Informar coordenadas manualmente'}
+        secondary
+        onPress={() => setManual(!manual)}
       />
-      <Field
-        label="Longitude *"
-        hint="Entre -180 e 180. Você também pode digitar as coordenadas."
-        value={value.longitude}
-        onChangeText={(t) => change('longitude', t)}
-        keyboardType="numbers-and-punctuation"
-      />
+      {manual && (
+        <>
+          <Field
+            label="Latitude *"
+            hint="Entre -90 e 90. Ex.: -23.5505"
+            placeholder="Ex.: -23.5505"
+            value={value.latitude}
+            onChangeText={(t) => change('latitude', t)}
+            keyboardType="numbers-and-punctuation"
+          />
+          <Field
+            label="Longitude *"
+            hint="Entre -180 e 180. Ex.: -46.6333"
+            placeholder="Ex.: -46.6333"
+            value={value.longitude}
+            onChangeText={(t) => change('longitude', t)}
+            keyboardType="numbers-and-punctuation"
+          />
+        </>
+      )}
     </>
   );
 }
