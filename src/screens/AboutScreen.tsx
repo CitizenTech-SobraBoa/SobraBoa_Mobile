@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Screen } from '../components/ui';
@@ -29,6 +30,8 @@ const STEPS: { icon: keyof typeof Ionicons.glyphMap; title: string; text: string
 ];
 
 export function AboutScreen() {
+  const commit: unknown = Constants.expoConfig?.extra?.referenceCommit;
+  const hash = typeof commit === 'string' ? commit : null;
   return (
     <Screen>
       <View style={s.hero}>
@@ -85,6 +88,12 @@ export function AboutScreen() {
           </View>
         ))}
       </View>
+
+      {hash && (
+        <Text selectable style={s.footer}>
+          Commit {hash.slice(0, 7)}
+        </Text>
+      )}
     </Screen>
   );
 }
@@ -127,4 +136,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   memberName: { fontFamily: fonts.bold, fontSize: 16, lineHeight: 22, color: colors.text },
+  footer: {
+    fontFamily: fonts.regular,
+    fontSize: 13,
+    color: colors.muted,
+    textAlign: 'center',
+  },
 });
