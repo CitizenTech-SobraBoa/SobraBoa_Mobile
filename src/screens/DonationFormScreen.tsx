@@ -18,7 +18,15 @@ import {
   Toggle,
 } from '../components/ui';
 import { ItemEditor, itemPayload, newItem, type ItemDraft } from '../components/ItemEditor';
-import { checkWindow, editDate, localDateTime, publicPhoto, required } from '../validation/forms';
+import {
+  checkWindow,
+  editDate,
+  exampleDateTime,
+  localDateTime,
+  maskDateTime,
+  publicPhoto,
+  required,
+} from '../validation/forms';
 
 export function DonationFormScreen({
   route,
@@ -147,34 +155,39 @@ export function DonationFormScreen({
       )}
       <Field
         label="Título *"
+        placeholder="Ex.: Pães e salgados do dia"
         maxLength={150}
         value={form.titulo}
         onChangeText={(t) => change('titulo', t)}
       />
       <Field
         label="Descrição"
+        placeholder="Ex.: Pães franceses e salgados que sobraram hoje, embalados em sacos limpos."
         multiline
         value={form.descricao}
         onChangeText={(t) => change('descricao', t)}
       />
       <Field
         label="Início da retirada *"
-        hint="Horário local do seu dispositivo. Formato DD/MM/AAAA HH:mm."
-        placeholder="DD/MM/AAAA HH:mm"
+        hint="Horário local do seu dispositivo. Digite só os números, as barras e os dois pontos entram sozinhos."
+        placeholder={`Ex.: ${exampleDateTime(1, 9)}`}
         maxLength={16}
+        keyboardType="number-pad"
         value={form.inicio}
-        onChangeText={(t) => change('inicio', t)}
+        onChangeText={(t) => change('inicio', maskDateTime(t))}
       />
       <Field
         label="Fim da retirada *"
-        placeholder="DD/MM/AAAA HH:mm"
+        placeholder={`Ex.: ${exampleDateTime(1, 12)}`}
         maxLength={16}
+        keyboardType="number-pad"
         value={form.fim}
-        onChangeText={(t) => change('fim', t)}
+        onChangeText={(t) => change('fim', maskDateTime(t))}
       />
       <Toggle label="Exige refrigeração" value={cold} onChange={setCold} />
       <Field
         label="Instruções de retirada"
+        placeholder="Ex.: Tocar a campainha e falar com o responsável. Retirar pela entrada lateral."
         maxLength={500}
         multiline
         value={form.instrucoes}
@@ -187,6 +200,7 @@ export function DonationFormScreen({
       <Field
         label="URL pública da foto (opcional)"
         hint="Informe uma URL HTTP ou HTTPS. Não há upload de imagens."
+        placeholder="Ex.: https://meusite.com/foto-do-alimento.jpg"
         autoCapitalize="none"
         maxLength={500}
         value={form.foto}
