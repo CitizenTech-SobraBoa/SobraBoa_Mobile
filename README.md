@@ -124,7 +124,7 @@ npm run release:check
 npx eas-cli build --platform android --profile preview
 ```
 
-O `release:check` exige um repositório git com a árvore limpa e a URL da API em HTTPS. O commit atual aparece no rodapé da tela "Sobre o App" do APK gerado, então um commit novo pede um build novo. Guarde as chaves de assinatura fora do repositório (o `.gitignore` já cobre `*.jks`, `*.keystore` e `credentials.json`).
+O `release:check` exige um repositório git com a árvore limpa e a URL da API em HTTPS. Anote o commit usado em cada build, porque um commit novo pede um build novo. Guarde as chaves de assinatura fora do repositório (o `.gitignore` já cobre `*.jks`, `*.keystore` e `credentials.json`).
 
 Para distribuir pelo Firebase App Distribution:
 
