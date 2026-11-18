@@ -15,6 +15,29 @@ export function emailValue(value: string) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('Informe um e-mail válido.');
   return email;
 }
+export function maskDate(value: string) {
+  const d = value.replace(/\D/g, '').slice(0, 8);
+  let out = d.slice(0, 2);
+  if (d.length > 2) out += `/${d.slice(2, 4)}`;
+  if (d.length > 4) out += `/${d.slice(4, 8)}`;
+  return out;
+}
+export function maskDateTime(value: string) {
+  const d = value.replace(/\D/g, '').slice(0, 12);
+  let out = maskDate(d.slice(0, 8));
+  if (d.length > 8) out += ` ${d.slice(8, 10)}`;
+  if (d.length > 10) out += `:${d.slice(10, 12)}`;
+  return out;
+}
+export function exampleDate(daysAhead = 0, now = new Date()) {
+  const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysAhead);
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`;
+}
+export function exampleDateTime(daysAhead: number, hour: number, minute = 0, now = new Date()) {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  return `${exampleDate(daysAhead, now)} ${pad(hour)}:${pad(minute)}`;
+}
 export function localDateTime(value: string): string {
   const match = /^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})$/.exec(value.trim());
   if (!match) throw new Error('Use a data e hora no formato DD/MM/AAAA HH:mm.');
