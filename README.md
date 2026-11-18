@@ -10,7 +10,7 @@ O app é feito em React Native com Expo e TypeScript e conversa com a API Java d
 | API Java (backend)    | https://sobraboa-api-java.onrender.com                  |
 | API de IA             | https://sobraboa-ia.onrender.com                        |
 | APK                   | Firebase App Distribution, projeto `sobraboa-37fec`     |
-| Vídeo de demonstração | (link do YouTube será colocado aqui)                    |
+| Vídeo de demonstração | https://youtu.be/GfU6H-NWiw0                            |
 
 ## Equipe
 
