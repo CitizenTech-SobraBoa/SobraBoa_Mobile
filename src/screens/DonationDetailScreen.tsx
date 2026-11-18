@@ -178,8 +178,7 @@ export function DonationDetailScreen({
         <Card>
           <Heading title="Reserva confirmada" />
           <Body>
-            Reserva #{reservation.id}\nCódigo: {reservation.codigoRetirada}\nRetire até{' '}
-            {displayDate(reservation.expiraEm)}.
+            {`Reserva #${reservation.id}\nCódigo: ${reservation.codigoRetirada}\nRetire até ${displayDate(reservation.expiraEm)}.`}
           </Body>
           <Body>
             Apresente o ID e o código ao doador. Você também encontra esses dados em Minhas

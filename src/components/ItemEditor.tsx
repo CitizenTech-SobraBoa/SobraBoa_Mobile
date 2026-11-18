@@ -65,7 +65,7 @@ export function ItemEditor({
         options={categories.map((c) => ({ value: String(c.id), label: c.nome }))}
         onChange={(t) => change('category', t)}
       />
-      {category?.observacaoCuidado && <Body>{category.observacaoCuidado}</Body>}
+      {!!category?.observacaoCuidado && <Body>{category.observacaoCuidado}</Body>}
       {category?.requerRefrigeracaoPadrao && (
         <Body>Esta categoria costuma exigir refrigeração. Revise as condições da doação.</Body>
       )}

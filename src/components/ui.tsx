@@ -52,11 +52,11 @@ export function Heading({
 }) {
   return (
     <View style={styles.heading}>
-      {eyebrow && <Text style={styles.eyebrow}>{eyebrow}</Text>}
+      {!!eyebrow && <Text style={styles.eyebrow}>{eyebrow}</Text>}
       <Text accessibilityRole="header" style={styles.title}>
         {title}
       </Text>
-      {subtitle && <Text style={styles.body}>{subtitle}</Text>}
+      {!!subtitle && <Text style={styles.body}>{subtitle}</Text>}
     </View>
   );
 }
@@ -146,7 +146,7 @@ export function Field({
           </Pressable>
         )}
       </View>
-      {hint && <Text style={styles.small}>{hint}</Text>}
+      {!!hint && <Text style={styles.small}>{hint}</Text>}
     </View>
   );
 }
