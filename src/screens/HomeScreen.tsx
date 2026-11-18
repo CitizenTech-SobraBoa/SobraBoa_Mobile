@@ -20,7 +20,19 @@ import { useTabBarSpace } from '../hooks/useTabBarSpace';
 import type { RootStackParams, TabParams } from '../navigation/types';
 import { colors, fonts } from '../theme';
 
-const HERO_RATIO = 1200 / 751;
+const HEROES = {
+  donor: {
+    source: require('../../assets/images/home-hero.jpg'),
+    ratio: 1200 / 751,
+    label: 'O que sobra pode fazer a diferença. Compartilhe alimentos. Alimente possibilidades.',
+  },
+  receptor: {
+    source: require('../../assets/images/home-hero-receptor.jpg'),
+    ratio: 1200 / 777,
+    label:
+      'Alimento bom, mais perto de você. Encontre doações e organize a retirada para a sua comunidade.',
+  },
+};
 const PAGE_PADDING = 22;
 
 function firstName(name?: string) {
@@ -37,6 +49,7 @@ export function HomeScreen() {
   const root = useNavigation<NativeStackNavigationProp<RootStackParams>>();
   const tabs = useNavigation<BottomTabNavigationProp<TabParams>>();
   const donor = session?.papel === 'DOADOR';
+  const hero = donor ? HEROES.donor : HEROES.receptor;
   const locked = donor && session?.aprovacao !== 'APROVADO';
   return (
     <View style={s.page}>
@@ -52,35 +65,14 @@ export function HomeScreen() {
           <Text style={s.greetingSub}>Pequenas atitudes. Novos destinos.</Text>
         </GreenHeader>
         <View style={s.body}>
-          {donor ? (
-            <Image
-              accessible
-              accessibilityRole="image"
-              accessibilityLabel="O que sobra pode fazer a diferença. Compartilhe alimentos. Alimente possibilidades."
-              source={require('../../assets/images/home-hero.jpg')}
-              resizeMode="cover"
-              style={[s.heroImage, { width: heroWidth, height: heroWidth / HERO_RATIO }]}
-            />
-          ) : (
-            <View style={s.hero}>
-              <View
-                pointerEvents="none"
-                accessibilityElementsHidden
-                importantForAccessibility="no-hide-descendants"
-                style={s.heroArt}
-              >
-                <Ionicons name="heart" size={170} color={colors.green} />
-              </View>
-              <View style={s.heroText}>
-                <Text accessibilityRole="header" style={s.heroTitle}>
-                  Alimento bom, mais perto de você.
-                </Text>
-                <Text style={s.heroBody}>
-                  Encontre doações e organize a retirada para a sua comunidade.
-                </Text>
-              </View>
-            </View>
-          )}
+          <Image
+            accessible
+            accessibilityRole="image"
+            accessibilityLabel={hero.label}
+            source={hero.source}
+            resizeMode="cover"
+            style={[s.heroImage, { width: heroWidth, height: heroWidth / hero.ratio }]}
+          />
           <ApprovalCard approval={session?.aprovacao ?? null} donor={donor} />
           <Button
             title={donor ? 'Criar uma doação' : 'Explorar doações próximas'}
@@ -133,18 +125,6 @@ const s = StyleSheet.create({
   greeting: { fontFamily: fonts.display, fontSize: 32, lineHeight: 38, color: colors.surface },
   greetingSub: { fontFamily: fonts.regular, fontSize: 16, color: colors.greenLight },
   heroImage: { borderRadius: 26 },
-  hero: {
-    minHeight: 200,
-    padding: 22,
-    justifyContent: 'center',
-    borderRadius: 26,
-    backgroundColor: colors.greenLight,
-    overflow: 'hidden',
-  },
-  heroArt: { position: 'absolute', right: -24, bottom: -26, opacity: 0.22 },
-  heroText: { width: '64%', gap: 12 },
-  heroTitle: { fontFamily: fonts.display, fontSize: 28, lineHeight: 34, color: colors.green },
-  heroBody: { fontFamily: fonts.regular, fontSize: 15, lineHeight: 22, color: colors.muted },
   assistant: {
     minHeight: 72,
     paddingHorizontal: 18,
